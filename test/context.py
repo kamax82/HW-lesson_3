@@ -17,11 +17,15 @@ with open('books-39204-271043.csv') as ex_books:
     reader = csv.DictReader(ex_books, delimiter=',')
     book_atr = []
     for row in reader:
-        book_atr.append({'tittle': row['Title'], 'author': row['Author'], 'height': row['Height']})
+        if len(row['Author']) > 0:
+            book_atr.append({'tittle': row['Title'], 'author': row['Author'], 'height': row['Height']})
+        else:
+            book_atr.append({'tittle': row['Title'], 'author': '--Unknown--', 'height': row['Height']})
 
 '''Функция random.choices производит рандомную выборку 3 книг, и помещает ее в словарь'''
 for i in range(len(structured)):
-    structured[i].update({'books': random.choices(book_atr, k=3)})
+    rand_number = random.randint(1, 6)
+    structured[i].update({'books': random.choices(book_atr, k=rand_number)})
 
 '''Сохранение полученного словаря в json'''
 with open('my_exapmple.json', 'w') as my_ex:
