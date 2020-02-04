@@ -14,34 +14,18 @@ with open('users-39204-8e2f95.json') as users:
 
 '''Открытие csv файла и попытка сбора списка книг, с отсечением лишних ключей во вложенном словаре'''
 with open('books-39204-271043.csv') as ex_books:
-    reader = list(csv.DictReader(ex_books))
-    book_atr = {}
-    book_atr_list = []
-    titles = []
-    authors = []
-    heights = []
+    reader = csv.DictReader(ex_books, delimiter=',')
+    book_atr = []
     for row in reader:
-        if row['Title']:
-            titles.append(row['Title'])
-
-        if row['Author'] and (len(row['Author'])) > 0:
-            authors.append(row['Author'])
+        if len(row['Author']) > 0:
+            book_atr.append({'tittle': row['Title'], 'author': row['Author'], 'height': row['Height']})
         else:
-            authors.append('--Unknown--')
+            book_atr.append({'tittle': row['Title'], 'author': '--Unknown--', 'height': row['Height']})
 
-        if row['Height']:
-            heights.append(row['Height'])
-
-    # Не получилось собрать списко словарей, в цикле идет перезапись, в тоге book_atr_list состоит из одинаковых словарей
-    for i in range(len(titles)):
-        book_atr['title'] = titles[i]
-        book_atr['author'] = authors[i]
-        book_atr['heights'] = heights[i]
-        book_atr_list.append(book_atr)
-
-    # Из-за ошибки book_atr_list функция random.choices производящая рандомную выборку, выбирает из одинаковых елементов
-    for i in range(len(structured)):
-        structured[i].update({'books': random.choices(book_atr_list, k=3)})
+'''Функция random.choices производит рандомную выборку от 1 до 6 книг книг, и помещает ее в словарь'''
+for i in range(len(structured)):
+    rand_number = random.randint(1, 6)
+    structured[i].update({'books': random.choices(book_atr, k=rand_number)})
 
 '''Сохранение полученного словаря в json'''
 with open('my_exapmple.json', 'w') as my_ex:
