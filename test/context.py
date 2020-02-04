@@ -22,7 +22,7 @@ with open('books-39204-271043.csv') as ex_books:
         else:
             book_atr.append({'tittle': row['Title'], 'author': '--Unknown--', 'height': row['Height']})
 
-'''Функция random.choices производит рандомную выборку 3 книг, и помещает ее в словарь'''
+'''Функция random.choices производит рандомную выборку от 1 до 6 книг книг, и помещает ее в словарь'''
 for i in range(len(structured)):
     rand_number = random.randint(1, 6)
     structured[i].update({'books': random.choices(book_atr, k=rand_number)})
